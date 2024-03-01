@@ -11,10 +11,8 @@ export class RegisterDto {
   @IsNotEmpty()
   @MinLength(4)
   @MaxLength(20)
-  readonly username: string;
+  readonly full_name: string;
 
-  @IsString()
-  @IsNotEmpty()
   @IsEmail()
   readonly email: string;
 }

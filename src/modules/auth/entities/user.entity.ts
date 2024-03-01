@@ -13,4 +13,10 @@ export default class User extends Model<User> {
     primaryKey: true,
   })
   email: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  secret: string;
 }
