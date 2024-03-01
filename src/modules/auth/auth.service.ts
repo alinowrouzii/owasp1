@@ -3,8 +3,6 @@ import { RegisterDto } from './dto/register.dto';
 import User from './entities/user.entity';
 import { OtpService } from '../otp/otp.service';
 import { generateSecret } from 'src/common/utils/secret-generator';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +10,7 @@ export class AuthService {
     @Inject('USER_REPOSITORY')
     private readonly userRepository: typeof User,
     private readonly otpService: OtpService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    // @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
   async register(registerDto: RegisterDto) {
     const secret = generateSecret();
@@ -26,13 +24,15 @@ export class AuthService {
         {},
       );
     } catch (error) {
+      console.error(error.name);
       // no need to throw error if user already exists. so attackers can't guess if a user exists or not by brute forcing
       if (error.name !== 'SequelizeUniqueConstraintError') {
         throw new HttpException('Internal server error', 500);
       }
+      console.log('user already exists');
     }
 
-    return 'activation link sent to your email. check your email';
+    return { message: 'activation link sent to your email. check your email' };
   }
 
   async sendOtp(params: { email: string }) {
@@ -49,13 +49,13 @@ export class AuthService {
       console.log('sent otp', otp);
     }
 
-    return 'otp sent. check your email';
+    return { message: 'otp sent. check your email' };
   }
 
   async login(params: { email: string; otp: string }) {
     const user = await this.userRepository.findOne({
       where: { email: params.email },
-      rejectOnEmpty: true,
+      rejectOnEmpty: false,
     });
 
     if (user) {
@@ -65,7 +65,7 @@ export class AuthService {
         otp: params.otp,
       });
       if (isValid) {
-        return 'logged in';
+        return { message: 'logged in' };
       }
     }
 

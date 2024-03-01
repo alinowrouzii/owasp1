@@ -1,5 +1,5 @@
-import crypto from 'crypto';
-
+import * as crypto from 'crypto';
+import * as base32 from 'hi-base32';
 export const generateSecret = (): string => {
-  return crypto.randomBytes(32).toString('hex');
+  return base32.encode(crypto.randomBytes(32).toString());
 };

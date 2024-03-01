@@ -30,6 +30,7 @@
     "cache-manager": "^5.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "hi-base32": "^0.5.1",
     "husky": "^9.0.11",
     "otpauth": "^9.2.2",
     "pg": "^8.11.3",

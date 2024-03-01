@@ -4,6 +4,7 @@ import { TOTP } from 'otpauth';
 @Injectable()
 export class OtpService {
   generateOtp(paramss: { secret: string }): { otp: string } {
+    console.log('paramss.secret', paramss.secret);
     const otpObject = this.getTotpObject(paramss.secret);
     const otp = otpObject.generate();
     return { otp };
