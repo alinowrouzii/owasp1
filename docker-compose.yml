@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: registry.docker.ir/postgis/postgis:16-3.4
+    ports:
+      - '5432:5432'
+    volumes:
+      - type: volume
+        source: data-postgres
+        target: /var/lib/postgresql/data
+        read_only: false
+    env_file:
+      - ./env/.postgres.env
+  
+  redis:
+    image: bitnami/redis:7.0
+    expose:
+      - '6379'
+    env_file:
+      - ./env/.redis.env
+    restart: always
+    volumes:
+      - type: volume
+        source: data-redis
+        target: /bitnami/redis/data
+    ports:
+      - 6379:6379
+
+volumes:
+  data-postgres:
+  data-redis:
