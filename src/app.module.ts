@@ -7,7 +7,6 @@ import { DatabaseModule } from './modules/database/database.module';
 import { OtpModule } from './modules/otp/otp.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-
 @Module({
   imports: [
     AuthModule,

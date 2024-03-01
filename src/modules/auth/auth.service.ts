@@ -27,7 +27,7 @@ export class AuthService {
       console.error(error.name);
       // no need to throw error if user already exists. so attackers can't guess if a user exists or not by brute forcing
       if (error.name !== 'SequelizeUniqueConstraintError') {
-        throw new HttpException('Internal server error', 500);
+        throw new HttpException({ message: 'Internal server error' }, 500);
       }
       console.log('user already exists');
     }
@@ -69,6 +69,6 @@ export class AuthService {
       }
     }
 
-    throw new HttpException('Invalid email or otp', 401);
+    throw new HttpException({ message: 'Invalid email or otp' }, 401);
   }
 }
